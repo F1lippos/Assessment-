@@ -2,170 +2,201 @@
 library("ProjectTemplate")
 setwd("~/R/CSCFilProject")
 load.project()
-##Filippos
-head(df2)
-nrow(df2)
-head(df3$learner_id)
-nrow(df3)
 
 library(dplyr)
-glimpse(df2)
-glimpse(df3)
-
-## join the enrollments per week 
-data = bind_rows(df2,df3)
-## join the activities per week
-activity =bind_rows(activity2,activity3)
-class(activity)
-table(activity$learner_id)
-
-## inner join the enrolmets and activities
-DF_innerjoin = merge(x=data,y=activity,by="learner_id")
-## to check the activituy for a specific learner
-DF_innerjoin[DF_innerjoin$learner_id %in%  "feb41f66-257c-4839-a209-dd4e0f75ecf5" ,] 
-
-## site for plotd : https://sites.harding.edu/fmccown/r/
-
 library(ggplot2)
 library( dplyr )
+ 
+###############################################################################
+#############################  Analysis 4th set of files  ########################################
+###############################################################################
+#install.packages("tidyverse")
+## cyber.security.4.archetype.survey.responses
 
-data <- data  [(!(data$gender  =="Unknown") & !(data$age_range  =="Unknown")),]
-dfg <- data %>%
-  dplyr::count(age= data$age_range,gender=data$gender, sort = TRUE) 
+## leaving4 <- na.omit(cyber.security.4.leaving.survey.responses)
+## str(cyber.security.4.leaving.survey.responses)
 
-##Enrolments regarding age/gender
-ggplot(dfg ,aes(x = age, y = n   , fill = gender))+
-  geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Enrolments regarding age/gender",
-       x = "Age-Range",
-       y = "Number of Ocurances")
+## enrolments4 <- na.omit(cyber.security.4.enrolments)
+## enrolments4 <- cyber.security.4.enrolments  [(!(cyber.security.4.enrolments$gender  =="Unknown") & !(cyber.security.4.enrolments$age_range  =="Unknown")),]
 
-##Enrollments By Year
-dfinserttions  <- data %>%
-dplyr::count(Enrolemts=  format(as.POSIXct(as.Date(data$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y") , sort = TRUE) 
-ggplot(dfinserttions ,aes(x = Enrolemts, y = n   , fill = Enrolemts   ))+
-  geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Enrollments By Year",
-       x = "Year",
-       y = "Number of Enrolments")
+##  1.   Graph  from enrolment file Age_Range Vs Gender 
+##########################################################
+head(enrolment4)
+#enrolments4 <- cyber.security.4.enrolments  [(!(cyber.security.4.enrolments$gender  =="Unknown") & !(cyber.security.4.enrolments$age_range  =="Unknown")),]
+ 
+
+dfenrolment4 <- enrolment4 %>%
+  dplyr::count(age = enrolment4$age_range, gender =enrolment4$gender, sort = TRUE)
+
+#ggplot(data=dfenrolment4) + geom_point(aes(x=age  , y=n  ,colour=gender, size = 3  )) +
+#  geom_text(aes(x=age,label = n,y=n), size = 3)  +
+#  labs(title = "Enrolments regarding age/gender",
+#       x = "Age-Range",
+#       y = "Number of Genders")
+
+#ggplot(dfenrolment4 ,aes(x = age, y = n   , fill = gender))+
+#  geom_bar(stat="identity")+
+#  geom_text(aes(label = n,y=n), size = 3) +
+#  labs(title = "Enrolments regarding age/gender",
+#       x = "Age-Range",
+#       y = "Number of Ocurances")
+
+ga = ggplot(dfenrolment4, aes(x=age, y=n, group=gender)) +
+  geom_line(aes(color=gender))+
+  geom_point(aes(color=gender)) +
+labs(title = "Enrolments regarding age/gender",
+     x = "Age-Range",
+     y = "Number of Ocurances")
+print(ga)
+
 
 
 ##Age_range vs Gender in Enrollments
-dfageeducation <-data %>%
-dplyr::count(age= data$age_range,gender=data$gender, sort = TRUE)
-ggplot(data=dfageeducation) + geom_point(aes(x=age, y=gender,colour=age, size =4))+
-  geom_text(aes(x=age,label = n, y=gender), size = 3)+
-  labs(title = "Age and Gender",
-       x = "Age-Range",
-       y = "Gender")
+dfageeducation4 <- enrolment4 %>%
+  dplyr::count(age= enrolment4$age_range,education=enrolment4$highest_education_level, sort = TRUE) 
 
-##Education per Age
-dfageeducation <- data %>%
-dplyr::count(age= data$age_range,education=data$highest_education_level, sort = TRUE) 
-ggplot(data=dfageeducation) + geom_point(aes(x=age , y=education  ,colour=age, size = 4 ))+
+ggplot(data=dfageeducation4) + geom_point(aes(x=age , y=education  ,colour=age, size = 4 ))+
   geom_text(aes(x=age,label = n,y=education), size = 3)+
   labs(title = "Education per Age",
        x = "Age-Range",
        y = "highest_education_level")
 
-##Education per gender
-dfageeducation1 <- data %>%
-dplyr::count(gender= data$gender,education=data$highest_education_level, sort = TRUE) 
-ggplot(data=dfageeducation1) + geom_point(aes(x=gender , y=education  ,colour=gender, size = 4 ))+
-  geom_text(aes(x=gender,label = n,y=education), size = 3)+
-  labs(title = "Education per Gender",
-       x = "Gender",
-       y = "highest_education_level")
 
 ##Graph of gender vs employment_area
-dfageeducation1 <- data %>%
-dplyr::count(gender= data$gender,employment=data$employment_area, sort = TRUE) 
-ggplot(data=dfageeducation1) + geom_point(aes(x=gender , y=employment  ,colour=gender, size = 4))+
+dfemployment4 <- enrolment4 %>%
+  dplyr::count(gender= enrolment4$gender,employment=enrolment4$employment_area, sort = TRUE) 
+ggplot(data=dfemployment4) + geom_point(aes(x=gender , y=employment  ,colour=gender, size = 4))+
   geom_text(aes(x=gender,label = n,y=employment), size = 3)+
   labs(title = "Employment per Gender",
        x = "Gender",
        y = "Employment's")
 
-##Employment Status based on Employment Area 
-dfinserttions  <- data %>%
-dplyr::count(employment= data$employment_area,employment=data$employment_status, sort = TRUE) 
-ggplot(dfinserttions ,aes(x = employment, y = n  , fill = employment  ))+
-  geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Employment Status",
-       x = "Employment Status")
 
-##3333
-dfinserttions  <- data %>%
-  dplyr::count(employment_= data$employment_area,employment=data$employment_status, sort = TRUE) 
-ggplot(dfinserttions ,aes(x = employment, y = n  , fill = employment_  ))+
-  geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Employment Status",
-       x = "Employment Status")
+##  graph  gender vs   country that enrol in a course 
+table (data$country)
 
-##########################################
-#Numbers of genders each age
-dfenrolment4 <- enrolment4 %>%
-  dplyr::count(age = enrolment4$age_range, gender =enrolment4$gender, sort = TRUE)
-ggplot(data=dfenrolment4) + geom_point(aes(x=age  , y=n  ,colour=gender, size = 3  )) +
-  geom_text(aes(x=age,label = n,y=n), size = 3)  +
+dfcountry4 <- enrolment4 %>%
+  dplyr::count(gender= enrolment4$gender, country=enrolment4$country, sort = TRUE) 
+
+dfcountry4 = head(dfcountry4,7)
+
+#ggplot(data=dfcountry4) + geom_point(aes(x=gender , y=country  ,colour=gender, size = 4 ))+
+#  geom_text(aes(x=gender,label = n,y=country), size = 3)+
+#  labs(title = " 7 top countries Enrolments by Gender ",
+#       x = "gender",
+#       y = "countries")
+
+ggplot(dfcountry4 ,aes(x = gender, y = n   , fill = country))+
+  geom_bar(stat="identity")+
+ # geom_text(aes(label = n), size = 3) +
   labs(title = "Enrolments regarding age/gender",
        x = "Age-Range",
-       y = "Number of Genders")
+       y = "Number of Ocurances")
 
-ga = ggplot(dfenrolment4, aes(x=age, y=n, group=gender)) +
-  geom_line(aes(color=gender))+
-  geom_point(aes(color=gender))
-print(ga)
+## 2.   Activity  File    
+################################  
 
-
-
-dfsteps4 <- activity4 %>%
-dplyr::count(stepcount= str_sub(activity4$step,1,1) , sort = TRUE)
-ggplot(dfsteps4 ,aes(x = stepcount     , y = n   , fill = stepcount        ))+
-  geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Step Activity",
-       x = "Steps set ",
-       y = "Number of trials")
-
-                  ####
-dfsteps44 <- activity4 %>%
-dplyr::count(step =  activity4$step  , sort = TRUE)
-g = ggplot(data=dfsteps44, aes(x=step, y=n))
-g1 = g + geom_point() + stat_smooth(linetype=2) +
-  xlab("Displacement") + ylab("Highway steps")
-print(g1)
-
-
+ table(activity4$step)
+#table(activity4$step_number )
+#activity4 <- cyber.security.4.step.activity
 
 dfsteps4 <- activity4 %>%
-  dplyr::count(stepcount= str_sub(activity4$step,1,1) , sort = TRUE)
+  dplyr::count(stepcount= str_sub(activity4$step,1,1) , sort = TRUE) 
 
-ggplot(dfsteps4 ,aes(x = stepcount     , y = n   , fill = stepcount        ))+
-  geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Step Activity",
-       x = "Steps set ",
-       y = "Number of trials")
+#ggplot(dfsteps4 ,aes(x = stepcount     , y = n   , fill = stepcount        ))+
+#  geom_bar(stat="identity")+
+#  geom_text(aes(label = n,y=n), size = 3) +
+#  labs(title = "Step Activity",
+#       x = "Steps set ",
+#       y = "Number of trials")
+#
 
-
-
+ 
+####
 dfsteps44 <- activity4 %>%
   dplyr::count(step =  activity4$step  , sort = TRUE)
 
 g = ggplot(data=dfsteps44, aes(x=step, y=n))
 g1 = g + geom_point() + stat_smooth(linetype=2) +
-  xlab("Displacement") + ylab("Highway steps")
-
+  xlab("set of Steps") + ylab("Number of Trials in activiries")
 print(g1)
 
 
+#####  Another graph to see the duration of teh activities 
+
+table(activity4$last_completed_at)
+activity4Date <- subset(activity4, last_completed_at != "")
+table(activity4Date$last_completed_at)
+
+difftime(as.POSIXlt(activity4Date$last_completed_at),as.POSIXlt(activity4Date$first_visited_at), units = "mins")
+
+dfstepduration <- data.frame(activity4Date ,difftime =difftime(as.POSIXlt(activity4Date$last_completed_at),as.POSIXlt(activity4Date$first_visited_at), units = "mins"))
+head(dfstepduration)
+glimpse(dfstepduration)
+table(dfstepduration$step)
+
+
+
+dfsteps4dueation <- dfstepduration %>%
+  dplyr::count(step = str_sub(dfstepduration$step,1,1)  , difftime,sort = TRUE)
+summary(dfsteps4dueation)
+
+
+table(dfsteps4dueation$step)
+
+
+
+
+# load dplyr library
+library("dplyr")                            
+
+
+par(mfrow=c(1,2))
+
+### the average time oin minutes for each set to complete
+dfstepdurationinmin   <- dfstepduration %>% group_by(step = str_sub(dfstepduration$step,1,1)) %>%
+  summarise_at(vars(difftime),              # Specify column
+               list(name =  mean ))  
+
+dfstepdurationinmin$name <- round(dfstepdurationinmin$name)
+
+ggplot(dfstepdurationinmin ,aes(x = step     , y = name  ,fill=step      ))+
+  geom_bar(stat="identity")+
+  geom_text(aes(x = step , label =name, y=name), size = 3) +
+  labs(title = "Steps Duration",
+       x = "Steps set ",
+       y = "minutes")
+
+
+###  total time in hours is spend to complete the sets s
+dfstepdurationinmintotal   <- dfstepduration %>% group_by(step = str_sub(dfstepduration$step,1,1)) %>%
+  summarise_at(vars(difftime),              # Specify column
+               list(name =  sum ))  
+
+dfstepdurationinmintotal$name <- round(dfstepdurationinmintotal$name/60)
+
+ggplot(dfstepdurationinmintotal ,aes(x = step     , y = name  ,fill=step      ))+
+  geom_bar(stat="identity")+
+  geom_text(aes(x = step , label =name, y=name), size = 3) +
+  labs(title = "Steps Duration total",
+       x = "Steps set ",
+       y = "hours")
+
+
+
+par(mfrow=c(1,1))
+ 
+
+
+
+## 3.   Graph  Quiz vs response  
+################################
+table(Questionresp4$quiz_question)
+
+## show the correct/false answers 
+
 dfQuestionresp4 <- Questionresp4 %>%
-  dplyr::count(quiz= str_sub(Questionresp4$quiz_question, 1, 1),response=Questionresp4$correct, sort = TRUE)
+  dplyr::count(quiz= str_sub(Questionresp4$quiz_question, 1, 1),response=Questionresp4$correct, sort = TRUE) 
 
 ggplot(data=dfQuestionresp4) + geom_point(aes(x=quiz  , y=n  ,colour=response, size = 4 ))+
   geom_text(aes(x=quiz ,label = n,y=n    ), size = 3)+
@@ -174,12 +205,116 @@ ggplot(data=dfQuestionresp4) + geom_point(aes(x=quiz  , y=n  ,colour=response, s
        y = "Number of Trialsl")
 
 
+## Merge 2 files to extract data regarding the age range and the wrong answers in Questions 
+
+DF_QuestionAnswerJoin = merge(x=enrolment4,y=Questionresp4,by="learner_id")
+#keep only those data with wrong answers
+DF_QuestionAnswerJoin <- subset(DF_QuestionAnswerJoin, correct =="false")
+
+dfQuestionrespFalse <- DF_QuestionAnswerJoin %>%
+  dplyr::count(Age=  DF_QuestionAnswerJoin$age_range , sort = TRUE)
 
 
-dfQuestionresp44 <- Questionresp4 %>%
-dplyr::count(quiz=  Questionresp4$quiz_question , sort = TRUE)
-gr = ggplot(data=dfQuestionresp44, aes(x=quiz, y=n))
-gr1 = g + geom_point() + stat_smooth(linetype=1) +
-  xlab("Displacement") + ylab("Question Response")
+ggplot(dfQuestionrespFalse ,aes(x = Age     , y = n  ,fill=Age      ))+
+  geom_bar(stat="identity")+
+  geom_text(aes(x = Age , label =n, y=n), size = 3) +
+  labs(title = "Incorrect answerd Per Age  ",
+       x = "Age Range ",
+       y = "No. Incorrect answers")
 
-print(gr1)
+
+###  4  graph    Reson Leaving the course vs year
+#table (leaving4$leaving_reason   )
+#table (leaving4$leaving_reason ,  )
+
+dfleavingReason4  <- leaving4 %>%
+  dplyr:: count(LeftYear=  format(as.POSIXct(as.Date(leaving4$left_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y")  , reason =leaving4$leaving_reason , sort = TRUE)
+
+ggplot(dfleavingReason4 ,aes(x = LeftYear, y = reason  , fill = LeftYear , colour= LeftYear,size = 3   ))+
+  #  geom_bar(stat="identity")+
+  geom_text(aes(x=LeftYear,label = n,y=reason), size = 3) +
+  labs(title = "Leaving Reason from Course",
+       x = "Reason",
+       y = "Year Left")
+
+###############################
+##more investigation
+#cyber.security.4.enrolments  [ cyber.security.4.enrolments$learner_id  == "091df104-705f-4ee2-a67b-9d90043c4f56",]
+#cyber.security.4.step.activity  [ cyber.security.4.step.activity$learner_id  == "091df104-705f-4ee2-a67b-9d90043c4f56",]
+#cyber.security.4.question.response  [ cyber.security.4.question.response$learner_id  == "091df104-705f-4ee2-a67b-9d90043c4f56",]
+#cyber.security.4.weekly.sentiment.survey.responses  [ cyber.security.4.weekly.sentiment.survey.responses$learner_id  == "091df104-705f-4ee2-a67b-9d90043c4f56",]
+
+###########################################################################
+##  end of basic analysis of 4th set of data 
+###########################################################################
+
+
+#############################################################################
+##      Analysis with Multiple sets  2,3 ,4 
+#############################################################################
+
+glimpse(enrolment2)
+glimpse(enrolment3)
+
+## join the enrolments per week 
+data23 = bind_rows(enrolment2,enrolment3)
+data = bind_rows(data23,enrolment4)
+
+
+## join the activities per week
+activity23 =bind_rows(activity2,activity3)
+activity   =bind_rows(activity23,activity4)
+#class(activity)
+#table(activity$learner_id)
+
+## inner join the enrolmets and activities
+DF_innerjoin = merge(x=data,y=activity,by="learner_id")
+## to check the activituy for a specific learner
+DF_innerjoin[DF_innerjoin$learner_id %in%  "feb41f66-257c-4839-a209-dd4e0f75ecf5" ,] 
+ 
+
+
+##  cleansing of data - remove the unknown 
+head(data)
+nrow(data)
+data <- data  [(!(data$gender  =="Unknown") & !(data$age_range  =="Unknown")),]
+nrow(data)
+head(data)
+## Another findings of not valid data for statistical purposes 
+
+###################################################################
+##      1st plot  of many sets  -   Enrolments By Yea 
+###################################################################
+dfenrolments   <- data %>%
+  dplyr::count(Enrolemts=  format(as.POSIXct(as.Date(data$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y") , sort = TRUE) 
+
+
+ggplot(dfenrolments ,aes(x = Enrolemts, y = n   , fill = Enrolemts   ))+
+  geom_bar(stat="identity")+
+  geom_text(aes(label = n,y=n), size = 3) +
+  labs(title = "Enrolments By Year",
+       x = "Year",
+       y = "Number of Enrolments")
+
+
+ 
+##  durations of enrolemnet / unelrolment
+
+
+
+
+
+
+
+
+
+
+## model of prediction 
+
+
+
+
+
+
+
+ 
