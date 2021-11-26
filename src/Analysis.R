@@ -62,6 +62,18 @@ ggplot(data=dfageeducation4) + geom_point(aes(x=age , y=education  ,colour=age, 
        y = "highest_education_level")
 
 
+##Age_range vs Gender in Enrollments
+dfgendereducation4 <- enrolment4 %>%
+  dplyr::count(gender= enrolment4$gender,education=enrolment4$highest_education_level, sort = TRUE) 
+
+ggplot(data=dfgendereducation4) + geom_point(aes(x=gender , y=education  ,colour=gender, size = 4 ))+
+  geom_text(aes(x=gender,label = n,y=education), size = 3)+
+  labs(title = "Education per gender",
+       x = "gender",
+       y = "highest_education_level")
+
+
+
 ##Graph of gender vs employment_area
 dfemployment4 <- enrolment4 %>%
   dplyr::count(gender= enrolment4$gender,employment=enrolment4$employment_area, sort = TRUE) 
@@ -70,6 +82,24 @@ ggplot(data=dfemployment4) + geom_point(aes(x=gender , y=employment  ,colour=gen
   labs(title = "Employment per Gender",
        x = "Gender",
        y = "Employment's")
+
+
+##Graph of gender vs employment_area
+dfemployment4pie <- enrolment4 %>%
+  dplyr::count( employment=enrolment4$employment_area, sort = TRUE) 
+
+
+dfemployment4pie <- head(dfemployment4pie,5)
+
+library(ggplot2)
+
+ggplot(dfemployment4pie, aes(x = "", y = n, fill = employment)) +
+  geom_col(color = "black") +
+  geom_text(aes(label = n),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y")
+
+
 
 
 ##  graph  gender vs   country that enrol in a course 
@@ -289,7 +319,7 @@ dfenrolments   <- data %>%
   dplyr::count(Enrolemts=  format(as.POSIXct(as.Date(data$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y") , sort = TRUE) 
 
 
-ggplot(dfenrolments ,aes(x = Enrolemts, y = n   , fill = Enrolemts   ))+
+ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
   geom_bar(stat="identity")+
   geom_text(aes(label = n,y=n), size = 3) +
   labs(title = "Enrolments By Year",
@@ -301,12 +331,31 @@ ggplot(dfenrolments ,aes(x = Enrolemts, y = n   , fill = Enrolemts   ))+
 ##  durations of enrolemnet / unelrolment
 
 
+## fit_1 <- lm(correct ~ question_number  , data = Questionresp4)
 
+dataenrolduration <- data
+dataenrolduration <- subset(dataenrolduration, unenrolled_at != "")
+nrow(dataenrolduration)
+difftime(as.POSIXlt(dataenrolduration$unenrolled_at),as.POSIXlt(dataenrolduration$enrolled_at), units = "days")
 
+dfdataenrolduration <- data.frame(dataenrolduration ,diffdays = difftime(as.POSIXlt(dataenrolduration$unenrolled_at),as.POSIXlt(dataenrolduration$enrolled_at), units = "days"))
+head(dfdataenrolduration)
+glimpse(dfdataenrolduration)
+##  table(dfdataenrolduration$step)
+summary(dfdataenrolduration$diffdays)
 
+###  total time in hours is spend to complete the sets s
+dfdataenroldurationall   <- dfdataenrolduration %>% group_by(role = role) %>%
+  summarise_at(vars(diffdays),              # Specify column
+               list(name =   mean ))  
 
+dfdataenroldurationall$name <- round(dfdataenroldurationall$name )
 
+###   111 days . So we can check with the current day if exist leraners with much more than 111 days
 
+dfdataenroldurationallsum   <- dfdataenrolduration %>% group_by(role = role) %>%
+  summarise_at(vars(diffdays),              # Specify column
+               list(name =   sum ))  
 
 
 ## model of prediction 
