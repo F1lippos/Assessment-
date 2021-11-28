@@ -150,8 +150,7 @@ Based on this graph shows us the number of activities on the y axis and the sect
 ## plot showing the number of trials in the 3 sections of activities
 ggplot(dfsteps4 ,aes(x = stepcount     , y = n   , fill = stepcount        ))+
   geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Section  Activity", x = "Sections of  Steps ", y = "Number of Activities")
+  geom_text(aes(label = n,y=n), size = 3) + labs(title = "Section  Activity", x = "Sections of  Steps ", y = "Number of Activities")
 ```
 ##############################################################################################################################
 
@@ -177,7 +176,7 @@ dfQuestionresp4 <- Questionresp4 %>%
 dplyr::count(quiz= str_sub(Questionresp4$quiz_question, 1, 1),response=Questionresp4$correct, sort = TRUE) 
 ## plot showing the correct/false answers per section 
 ggplot(data=dfQuestionresp4) + geom_point(aes(x=quiz  , y=n  ,colour=response, size = 4 ))+
-  geom_text(aes(x=quiz ,label = n,y=n    ), size = 3)+
+  geom_text(aes(x=quiz ,label = n,y=n    ), size = 3)+ 
   labs(title = "Question/Response Quiz", x = "Quiz-Section ", y = "Number of Trialsl")
 ```
 ##############################################################################################################################
@@ -191,9 +190,7 @@ dfQuestionrespFalse <- DF_QuestionAnswerJoin %>%
 dplyr::count(Age=  DF_QuestionAnswerJoin$age_range , sort = TRUE)
 ## plot the wrong answer per age 
 ggplot(dfQuestionrespFalse ,aes(x = Age     , y = n  ,fill=Age      ))+
-  geom_bar(stat="identity")+
-  geom_text(aes(x = Age , label =n, y=n), size = 3) +
-  labs(title = "Incorrect answerd Per Age  ", x = "Age Range ", y = "No. Incorrect answers")
+  geom_bar(stat="identity")+ geom_text(aes(x = Age , label =n, y=n), size = 3) + labs(title = "Incorrect answerd Per Age  ", x = "Age Range ", y = "No. Incorrect answers")
 ```
 
 
