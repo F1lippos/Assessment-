@@ -48,7 +48,7 @@ print(ga)
 ###################################################################################
 ## graph  showing relation  between Age Range and education  in Enrollment procedure
  
-## Plot showing the relation AegRange and Eduction Level
+## graph of age vs highest_education_level
 dfageeducation4 <- enrolment4 %>%
   dplyr::count(age= enrolment4$age_range,education=enrolment4$highest_education_level, sort = TRUE) 
 
@@ -59,7 +59,7 @@ ggplot(data=dfageeducation4) + geom_point(aes(x=age , y=education  ,colour=age, 
        y = "highest_education_level")
 
 
-## Plot showing the relation Gender  and Eduction Level
+## Education per age by gender
 dfgendereducation4g <- enrolment4 %>%
   dplyr::count(gender= enrolment4$gender,education=enrolment4$highest_education_level, sort = TRUE) 
 
@@ -70,12 +70,12 @@ ggplot(data=dfgendereducation4g) + geom_point(aes(x=gender , y=education  ,colou
        y = "highest_education_level")
 
 ###################################################################################
-## graph  showing relation  with Employemnet Area   in Enrollment procedure
+## graph  showing relation  with Employemnet Area in Enrollment procedure
 
 
-##   Plot showing the relation between gender vs employment_area
+## Plot showing the relation between gender vs employment_area
 dfemployment4 <- enrolment4 %>%
-  dplyr::count(gender= enrolment4$gender,employment=enrolment4$employment_area, sort = TRUE) 
+dplyr::count(gender= enrolment4$gender,employment=enrolment4$employment_area, sort = TRUE) 
 ggplot(data=dfemployment4) + geom_point(aes(x=gender , y=employment  ,colour=gender, size = 4))+
   geom_text(aes(x=gender,label = n,y=employment), size = 3)+
   labs(title = "Employment per Gender",
@@ -85,14 +85,12 @@ ggplot(data=dfemployment4) + geom_point(aes(x=gender , y=employment  ,colour=gen
 
 ##group the employment_area
 dfemployment4pie <- enrolment4 %>%
-  dplyr::count( employment=enrolment4$employment_area, sort = TRUE) 
-
+dplyr::count( employment=enrolment4$employment_area, sort = TRUE) 
 ## keep the top 5 
 dfemployment4pie <- head(dfemployment4pie,5)
 
 library(ggplot2)
 ## plot the top 5 employemnet area in Pie
-
 ggplot(dfemployment4pie, aes(x = "", y = n, fill = employment)) +
   geom_col(color = "black") +
   geom_text(aes(label = n),
@@ -115,9 +113,25 @@ dfcountry4 = head(dfcountry4,7)
 ggplot(dfcountry4 ,aes(x = gender, y = n   , fill = country))+
   geom_bar(stat="identity")+
  # geom_text(aes(label = n), size = 3) +
-  labs(title = "Enrolments regarding age/gender",
-       x = "Age-Range",
+  labs(title = "Enrolments regarding gender Country",
+       x = "Gender",
        y = "Number of Ocurances")
+
+
+## witthout cleansing 
+dfcountry4CY <- cyber.security.4.enrolments %>%
+  dplyr::count(  country=cyber.security.4.enrolments$detected_country, sort = TRUE) 
+
+dfcountry4CY = head(dfcountry4CY,7)
+
+## plot showing the top countries regarding that participating in the course
+ggplot(dfcountry4CY ,aes(x = country    , y = n   , fill = country))+
+  geom_bar(stat="identity")+
+   geom_text(aes(label = n), size = 3) +
+  labs(title = "Enrolments regarding Detected country",
+       x = "country",
+       y = "Number of  Enrollments")
+
 
 
 ###################################################################################
@@ -126,7 +140,7 @@ ggplot(dfcountry4 ,aes(x = gender, y = n   , fill = country))+
 
 head(activity4)
 table(activity4$step)
-## Each sexction (total 3, have sub-sections 1.1, 1.2, ..)
+## Each section (total 3, have sub-sections 1.1, 1.2, ..)
 
 
 table(activity4$step_number )
@@ -139,7 +153,7 @@ dfsteps4 <- activity4 %>%
 ggplot(dfsteps4 ,aes(x = stepcount     , y = n   , fill = stepcount        ))+
   geom_bar(stat="identity")+
   geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Sectoin  Activity",
+  labs(title = "Section  Activity",
        x = "Sections of  Steps ",
        y = "Number of Activities")
 
@@ -182,13 +196,14 @@ dfstepdurationinmin   <- dfstepduration %>% group_by(step = str_sub(dfstepdurati
                list(name =  mean ))  
 ## round duration
 dfstepdurationinmin$name <- round(dfstepdurationinmin$name)
+dfstepdurationinmin$name <- as.numeric(dfstepdurationinmin$name)
 
 ## plot showing the average time for each section to be completed 
 ggplot(dfstepdurationinmin ,aes(x = step     , y = name  ,fill=step      ))+
   geom_bar(stat="identity")+
   geom_text(aes(x = step , label =name, y=name), size = 3) +
   labs(title = "Steps Duration",
-       x = "Steps set ",
+       x = "Section set ",
        y = "minutes")
 
 
@@ -222,7 +237,7 @@ table(Questionresp4$question_type )
 
 ## group my data per scetion and response : correct/false answers 
 dfQuestionresp4 <- Questionresp4 %>%
-  dplyr::count(quiz= str_sub(Questionresp4$quiz_question, 1, 1),response=Questionresp4$correct, sort = TRUE) 
+dplyr::count(quiz= str_sub(Questionresp4$quiz_question, 1, 1),response=Questionresp4$correct, sort = TRUE) 
 ## plot showing the correct/false answers per section 
 ggplot(data=dfQuestionresp4) + geom_point(aes(x=quiz  , y=n  ,colour=response, size = 4 ))+
   geom_text(aes(x=quiz ,label = n,y=n    ), size = 3)+
@@ -313,7 +328,7 @@ DF_innerjoin = merge(x=data,y=activity,by="learner_id")
 ## to check the activity for a specific learner
 DF_innerjoin[DF_innerjoin$learner_id %in%  "00750a19-05a8-4a3a-bcbf-4f0271673cf4" ,] 
  
-
+dataAllenrolments  <- data 
 
 ##  cleansing of data - remove the unknown 
 head(data)
@@ -329,8 +344,10 @@ nrow(enrolment4)
 ###################################################################
 ##      1st plot  of many sets  -   Enrollments By Year 
 
-dfenrolments   <- data %>%
-  dplyr::count(Enrolemts=  format(as.POSIXct(as.Date(data$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y") , sort = TRUE) 
+
+
+dfenrolments   <- dataAllenrolments %>%
+  dplyr::count(Enrolemts=  format(as.POSIXct(as.Date(dataAllenrolments$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y") , sort = TRUE) 
 
 
 ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
@@ -341,12 +358,33 @@ ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
        y = "Number of Enrolments")
 
 
+
+data2017 <- subset(dataAllenrolments,format(as.POSIXct(as.Date(dataAllenrolments$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y") == "2017")
+data2017$enrolled_at <- as.numeric(format(as.POSIXct(as.Date(data2017$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%m" ))
+
+## trend of enrolments by Month
+table(data2017$enrolled_at)
+
+ 
+
+Enrolments2017 <-   data2017 %>%
+  dplyr::count(Enrolemts=  data2017$enrolled_at  , sort = TRUE) 
+
+
+ggplot(Enrolments2017 ,aes(x =  Enrolemts   , y=n     , fill =  Enrolemts   ))+
+  geom_bar(stat="identity")+
+  geom_text(aes(x=Enrolemts,label = n ), size = 4) +
+  labs(title = "Enrolments   by month of Year 2017",
+       x = "Month",
+       y = "Number of Enrolments")
+
+
+
 ###################################################################
 ##    2nd duration of enrollment / unenrollment
 
-## fit_1 <- lm(correct ~ question_number  , data = Questionresp4)
-
-dataenrolduration <- data
+ 
+dataenrolduration <- dataAllenrolments
 ## keep omnly the records that are completed 
 dataenrolduration <- subset(dataenrolduration, unenrolled_at != "")
 nrow(dataenrolduration)
@@ -374,7 +412,7 @@ dfdataenroldurationallsum   <- dfdataenrolduration %>% group_by(role = role) %>%
                list(name =   sum ))  
 
 ###################################################################
-##   3rd  number of users per stpes
+##   3rd  number of users per steps
 
 DF_innerjoin = merge(x=data,y=activity,by="learner_id")
 ## to check the activituy for a specific learner
@@ -384,19 +422,56 @@ DF_innerjoin[DF_innerjoin$learner_id %in%  "00750a19-05a8-4a3a-bcbf-4f0271673cf4
 DF_innerjoinlearner  <- subset (DF_innerjoin,last_completed_at == "")
 DF_innerjoinlearner[DF_innerjoinlearner$learner_id %in%  "1022e13a-177e-4b5d-9069-80b37f6137ac" ,]
 
--- step
+#step
 stepcount   <- DF_innerjoinlearner %>%
   dplyr::count(step =  step , sort = TRUE)
 ## 
 ggplot(stepcount ,aes(x = step, y = n   , fill = step   ))+
   geom_bar(stat="identity")+
   geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Enrolments By Year",
-       x = "Year",
+  labs(title = "Enrolments By Section",
+       x = "Section",
        y = "Number of Enrolments")
 
 
 
-
+#################################################################################
 ## model fitting  
- 
+#################################################################################
+install.packages("lubridate")
+modelenrolment4 <- data
+glimpse(modelenrolment4)
+
+## clean the data 
+modelenrolment4 <- modelenrolment4  [(!(modelenrolment4$gender  =="Unknown") |  !(modelenrolment4$age_range  =="Unknown")),]
+## factor the variables 
+modelenrolment4$learner_id <- as.factor(modelenrolment4$learner_id )
+modelenrolment4$age_range <- as.numeric(as.factor(modelenrolment4$age_range ))
+modelenrolment4$gender <- as.numeric(as.factor(modelenrolment4$gender ))
+modelenrolment4$country         <- as.factor(modelenrolment4$country         )
+
+modelenrolment4$enrolled_at<- as.numeric(format(as.POSIXct(as.Date(modelenrolment4$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y%m") )
+## create a train and  validate set data  
+ind = sample(2, nrow(modelenrolment4), replace=TRUE, prob=c(0.6, 0.4))
+df.traindata = modelenrolment4[ind==1,]
+df.validate = modelenrolment4[ind==2,]
+## apply the Linear model fitiing 
+results.lm <- lm( enrolled_at ~ age_range+gender+country ,data=modelenrolment4)
+## see the coefficients 
+summary(results.lm)
+
+## predict values using the train data 
+head(df.traindata,1)
+predict(results.lm, df.traindata) ###
+## plot the graph of regression fit 
+plot(x = modelenrolment4$enrolled_at,             # True values on x-axis
+     y = results.lm$fitted.values,               # fitted values on y-axis
+     xlab = "True Values",
+     ylab = "Model Fitted Values",
+     main = "Regression fits of new enrolments")
+
+abline(b = 1, a = 0)    
+
+
+# Values should fall around this line!
+
