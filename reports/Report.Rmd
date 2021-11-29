@@ -11,9 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir= normalizePath('..'))
 ```
 
-
-
 ```{r include=FALSE}
+# Load project
 library("ProjectTemplate")
 setwd("~/R/CSCFilProject")
 load.project()
@@ -22,95 +21,57 @@ load.project()
 source("src/Analysis.R")
 ```
 
-# Indroduction
 
- **Online Course Analysis** 
- The online course is related with the secure payments. Part of the analysis I have experienced with 7 sets of data. These set include enrollments of learners and  activities to the courses until the completion of the course. The course mainly consist of 3 sections. Each section has many parts that a learner need to attend and pass some questions.    
+## Introduction
 
- Understand the area of the course, the category of people that can attend this course. I would interested about the age,gender,education level and as well if the trend of enrollment would be incremented. I would also try to understand the different activities that this course cover and extract some useful conclusions about the program. Part of my analysis was to check the quality of data.  
+**Analysis of Online Course Analysis**
+ During my Analysis I come across with many challenges. The online course is related with the secure payments. The main objective of the analysis was to uncover important  factors and to reveal indicators that will  keep the enrollments in growth rate and the  seminars be interesting from all the learners.
+ The analysis is based on 7 sets of data. Each set consist of 7 files. These files are related with enrollments of learners and  activities that take place until the      completion of the course. The  course mainly consist of 3 sections. Each section has many activities that a learner need to attend and pass some questions.    
+
+ The initial analysis is based mainly on the 4th set of data. After understanding the data of this set, i merge and the other set to have bigger historical data about the  course. The preparation of data was part of my analysis by removing all the records that can not give any value to my variables as they could be null. 
+
 
 ## Data Analysis
-   First , I analyse the 4th set of data. During my analysis I tried to find some interested data that might help us to take some conclusions and actions about the course. Part of my analysis was to find an indicator as to how engaged the learner is, and subsequently how likely they might be to drop out. 
+ During my analysis I tried to find some interested data that might help us to take some conclusions and actions about the course. First i try to understand the category  of people that can attend this course. I would interested about the age,gender,education level and as well if the trend of enrollment would be incremented.  Part of my   analysis was to find an indicator as to how engaged the learner is, and subsequently how likely they might be to drop out.
    
-  With this set of data I analyse the data from the below files: 
-   * Enrollment
-   * Activity
-   * Question Response
-   * Leaving the course 
-   * Videos
-   
-   On every datafile that has been used for the project the method na.omit has been used to clear the data from the empties field's from the dataset. With the enrollment data, I tried  to find relations among the fields. These relations are display in the below reports 1 until report 5. In every report there is a briefly explanation comparing the data for the data set. Also each report has it's own title so to be more helpful for the reader to understand the ggplot graph what is shown.
-   
-   
-  It's important to mention that I tried to join multiple files to get some other view of the data. Using the enrollments from the data set 2, 3 and 4 definitely there are different views of the data after making the ggplots graphs. The way that I tried to connect the same file Enrollments.csv from the different data set 2, 3 and 4, I have used the inner join which helps me to mix every column together from this file. At the end I mixed the same file from three different runs having the same columns with different data.    
-   
-   
+ With the 4th set of data I analyse the data from the below files:
+ 
+ * **Enrollment**
+ * **Activity**
+ * **Question Response**
+ * **Leaving the course**
+ * **Videos**
 
+## Report 1     AgeRange Vs Gender 
+This graph shows the enrollments regarding the age_range  and  gender of the learners from the 4th set of data. We see that people from both gender  and especially from  age 18-25 and 26-35 are interested more in attending this course.  Male are interested more more than females. 
 
-## Report 1 Analysis of Learners per Age and gender
-This graph shows the enrollments regarding the age and the gender of the enrollment people from the 4th set of data .Inside of each bar on the graph there are the numbers of each age regarding the gender.On the y axis there are the number of the Occurrences which shows the maximum number of each age.The red color is  for female and the green for male.Also there is the blue color for other.At the age 18-25 and 26-35 as the graph shows are the highest enrollments. Also there are few other which are not specify the gender. If you looked focus on the graph you can see that the females are more than males on every enrollment regarding on any age.
-
-**Note:According to the ggplot geom_bar unfortunately the visualize of showing the color percentage of each bar based on gender on the age range is not match with the number's for the genders. But the number's of each gender are correct.     
 
 ```{r}
-##Enrollments regarding age/gender
-ggplot(dfenrolment4 ,aes(x = age, y = n   , fill = gender))+
-  geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) +
+   
+  ga = ggplot(dfenrolment4, aes(x=age, y=n, group=gender)) +
+  geom_line(aes(color=gender))+
+  geom_point(aes(color=gender)) +
   labs(title = "Enrolments regarding age/gender", x = "Age-Range", y = "Number of Ocurances")
+  print(ga)
+  
 ```
 ##############################################################################################################################
 
-## Report 2  Enrolments By Year
-On this graph there are three years of enrollments. The years 2016, 2017 and 2018. The y axis shows the Number of Enrollments by count 500 and the x axis shows the Years.The difference between of the enrollments of the years are high. In 2016 were only 126, in 2017 were 956 and in 2018 were 62.   
-
-```{r}
-##Enrolments By Year
-ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
-  geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) +
-  labs(title = "Enrolments By Year", x = "Year", y = "Number of Enrolments")
-```
-##############################################################################################################################
-
-## Report 3  Graph of Age vs Highest Education level
-This graph shows about the education per age. The y axis shows the education level and the x axis shows the age range.Inside of every circle there is a number which is the count of the people based on the age and for the highest education level.Each age range has different color circle. The age with the highest count of people in university degree and university masters is the age 26-35.Based on university degree and university masters the age 36-45 is the second highest with the count of people 28 and 21.The age 18 -25 also has a lot people in secondary with count 38 and university degree with count 36.The age >65 has the highest count of people in university doctorate and professional. The age <18 has the lowest count of people in secondary which is normal at this age.
+## Report 2   Age vs EducationLevel
+This graph shows   the education level  per age of the leaners.  Inside of every circle there is a number of learners who attend the course.Each age range has different color circle. The age with the highest count have  university degree and university masters is the age 26-35.Based on university degree and university masters the age 36-45 is the second highest with the count of people 28 and 21.The age 18 -25 also has a lot people in secondary with count 38 and university degree with count 36.The age >65 has the highest count of people in university doctorate and professional. The age <18 has the lowest count of people in secondary which is normal at this age.
 
 ```{r}
 ##graph of age vs highest_education_level
 ggplot(data=dfageeducation4) + geom_point(aes(x=age , y=education  ,colour=age, size = 4 ))+
   geom_text(aes(x=age,label = n,y=education), size = 3)+
-  labs(title = "Education per Age", x = "Age-Range",y = "highest_education_level")
+  labs(title = "Education per Age",
+       x = "Age-Range",
+       y = "highest_education_level")
 ```
 ##############################################################################################################################
 
-## Report 4  Education per Age by Gender
-According to this graph shows on y axis the highest education level and on x axis shows the gender. The number inside the circles is the count of people. Based on this graph the highest education level is the university degree which has 67 count of people who are female and 101 count of people who are male. The second highest education level is the university masters with count 37 who are female and 36 who are male.The third highest education level is the secondary with count 21 who are female and 44 who are male. The lowest highest education level is the apprenticeship with count 0 for the female gender and 1 who are male. In other gender there are 2 people on university masters and 1 people's in university degree and 1 people's less than secondary. 
+## Report 3  Employment area of learners
 
-```{r}
-##Education per age by gender
-dfageeducation1 <- data %>%
-  dplyr::count(gender= data$gender,education=data$highest_education_level, sort = TRUE) 
-ggplot(data=dfgendereducation4g) + geom_point(aes(x=gender , y=education  ,colour=gender, size = 4 ))+
-  geom_text(aes(x=gender,label = n,y=education), size = 3)+
-  labs(title = "Education per gender", x = "gender", y = "highest_education_level")
-```
-##############################################################################################################################
-
-## Report 5  Showing the relation between Gender vs Employment Area
-On this graph shows on y axis the employment's job and on x axis shows the gender. The color red represents the female and the green the male and the blue the other gender. On the circles there is the number which is the count of people on each gender depends on the employment job.On the teaching and education job there are more females than males which the numbers of peoples on each gender are high. Moving on the IT and Information services the males are more than females with big difference between the count of people.Also there are some Jobs which have very less count of people on each gender. On the list of employment's job there is one unknown job which has a lot females and males and other gender.  
-
-```{r}
-## Plot showing the relation between gender vs employment_area
-dfemployment4 <- enrolment4 %>%
-dplyr::count(gender= enrolment4$gender,employment=enrolment4$employment_area, sort = TRUE) 
-ggplot(data=dfemployment4) + geom_point(aes(x=gender , y=employment  ,colour=gender, size = 4))+
-  geom_text(aes(x=gender,label = n,y=employment), size = 3)+
-  labs(title = "Employment per Gender", x = "Gender", y = "Employment's")
-```
-##############################################################################################################################
-
-## Report 6 Group the Employment Area
 This Pie chart shows the top 5 employment areas based on the data.Each color represents the employment's job.The ration from around from pie chart starts by 50. The first biggest employment area is the IT and Information services with number of people 97.Unfortunately the second employment's job is unknown we don't know what kind of job is, but has number of people 93. The teaching and education is the third highest job with 32 number of people. Lastly comes the Engineering and manufacturing with 22 people and the Public sector with 20.  
 
 ```{r}
@@ -122,39 +83,72 @@ dfemployment4pie <- head(dfemployment4pie,5)
 ## plot the top 5 employment area in Pie
 ggplot(dfemployment4pie, aes(x = "", y = n, fill = employment)) +
   geom_col(color = "black") +
-  geom_text(aes(label = n), position = position_stack(vjust = 0.5)) +  coord_polar(theta = "y")
+  geom_text(aes(label = n),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y")
 ```
 ##############################################################################################################################
 
-## Report 7  Showing the top countries regarding that participating in the course
-On this Bar Chart shows us the number of the enrollments based on the top countries that participating in the course. The y axis is increased by 300 and each color represents the countries. Clearly that GB has the highest number of enrollments 1079. Secondly comes the IN with 347 and thirdly EG with 279.  
+## Report 4      Enrolments by gender vs country
+On this graph, Bar Chart shows us  by gender top countries that are participating in the course. It is amazing the participation from so many countries that are interested in the course. These data are dispaly after cleansing of data  
+
+```{r}
+  ggplot(dfcountry4 ,aes(x = gender, y = n   , fill = country))+
+  geom_bar(stat="identity")+
+  # geom_text(aes(label = n), size = 3) +
+  labs(title = "Enrolments regarding gender Country",
+       x = "Age-Range",
+       y = "Number of Ocurances")
+
+
+```
+##############################################################################################################################
+
+## Report 5   Top Detected countries  that participating in the course 
+On this Bar Chart shows us the number of the enrollments based on the top  detected countries that participating in the course. The y axis is increased by 300 and each color represents the countries. Clearly that GB has the highest number of enrollments 1079. Secondly comes the IN with 347 and thirdly EG with 279.  
 
 ```{r}
 ## plot showing the top countries regarding that participating in the course
 ggplot(dfcountry4CY ,aes(x = country    , y = n   , fill = country))+
 geom_bar(stat="identity")+
-geom_text(aes(label = n), size = 3) +
- labs(title = "Enrolments regarding Detected country", x = "country", y = "Number of  Enrollments")
+ geom_text(aes(label = n), size = 3) +
+ labs(title = "Enrolments regarding Detected country",
+       x = "country",
+       y = "Number of  Enrollments")
 
 ```
-#############################################################################################################
-* **Activity Data**
-The activity data are related  are consist of three sections. Each section has many steps ps that a learner need to read and pass. It keeps a history of the actions of the learners. From this data we can extract some useful informations about the duration of each step,  In reports 8 - 10 
 
-#################  Activity  File
 
-## Report 8  Showing the number of trials in the 3 sections of activities
+
+**Activity file**  
+In this file can  extract some useful information’s regarding the learners who attend  activities. Useful information was the average time for completion of each section. If we see some learners that are still have activities that the duration was above the average time then we can send them a reminder or questionnaire for helping them to complete the course.
+
+## Report 6   Activities on the 3 Sections 
 Based on this graph shows us the number of activities on the y axis and the sections of steps on x axis. The y axis starts by 10000 number of activities.Is clearly that following the steps there is a decrease. The first section of step has the highest number of activities with number 25722 the second with 16941 and the third with number 11861. 
 
 ```{r}
 ## plot showing the number of trials in the 3 sections of activities
 ggplot(dfsteps4 ,aes(x = stepcount     , y = n   , fill = stepcount        ))+
   geom_bar(stat="identity")+
-  geom_text(aes(label = n,y=n), size = 3) + labs(title = "Section  Activity", x = "Sections of  Steps ", y = "Number of Activities")
+  geom_text(aes(label = n,y=n), size = 3) +
+  labs(title = "Section  Activity",
+       x = "Sections of  Steps ",
+       y = "Number of Activities")
 ```
 ##############################################################################################################################
 
-## Report 9  Showing the average time for each section to be completed
+
+
+
+```{r}
+g = ggplot(data=dfsteps44, aes(x=step, y=n))
+g1 = g + geom_point() + stat_smooth(linetype=2) +
+  xlab("Sections of  Steps") + ylab("Number of ativiries")
+print(g1)
+```
+
+
+## Report 7  Step duration  for the activities
 This graph shows us the duration of each step. The y axis shows the minutes and starts by 200 minutes and the x axis shows the steps set. Based on the graph the step 1 took more minutes to be completed than the other steps. The step 2 took 464 minutes which has the fewest minutes comparing with other two steps 1 and 3. 
 
 ```{r}
@@ -162,41 +156,85 @@ This graph shows us the duration of each step. The y axis shows the minutes and 
 ggplot(dfstepdurationinmin ,aes(x = step     , y = name  ,fill=step      ))+
   geom_bar(stat="identity")+
   geom_text(aes(x = step , label =name, y=name), size = 3) +
-  labs(title = "Steps Duration", x = "Steps set ", y = "minutes")
+  labs(title = "Steps Duration",
+       x = "Steps set ",
+       y = "minutes")
 ```
 ##############################################################################################################################
 
-## Report 10  Group my data per section and response : correct/false answers 
-Analysis of data regarding the questions vs response
-This graph shows us on each quiz section the true and the false answers for the quiz. The red color represents the false and the blue the true. On the first quiz section there are more true answers than false which is pretty good overall for this first quiz section. On the second quiz section there are more true than false answers but the range between them is small comparing with the first step. Unfortunately the third step has more false answers than true which is bad for the quiz and there is to investigate why this happens.  
+**Question Response File**
 
+
+## Report 8     Quiz Response 
+Analysis of data regarding the questions vs response
+This graph shows us on each quiz section the true and the false answers for the quiz. The red color represents the false and the blue the true. On the first quiz section there are more true answers than false which is pretty good overall for this first quiz section. On the second quiz section there are more true than false answers but the range between them is small comparing with the first step. Unfortunately the third step has more false answers than true. This may give  an alert that may change some topics
 ```{r}
 ## group my data per section and response : correct/false answers 
 dfQuestionresp4 <- Questionresp4 %>%
 dplyr::count(quiz= str_sub(Questionresp4$quiz_question, 1, 1),response=Questionresp4$correct, sort = TRUE) 
 ## plot showing the correct/false answers per section 
 ggplot(data=dfQuestionresp4) + geom_point(aes(x=quiz  , y=n  ,colour=response, size = 4 ))+
-  geom_text(aes(x=quiz ,label = n,y=n    ), size = 3)+ 
-  labs(title = "Question/Response Quiz", x = "Quiz-Section ", y = "Number of Trialsl")
+  geom_text(aes(x=quiz ,label = n,y=n    ), size = 3)+
+  labs(title = "Question/Response Quiz",  x = "Quiz-Section ", y = "Number of Trialsl")
 ```
 ##############################################################################################################################
 
-## Report 11  Group the set of wrong answers by Age
+## Report 9    Age Vs Quiz response for failure response
 This Bar Chart shows the incorrect answers per age.The y axis shows  the number of incorrect answers and starting by 100. The x axis shows the age range of the people. The age 56-65 and >65 has the highest numbers of incorrect answers. It's important to mention that the age <18 has the lowest incorrect answers with only 5 in all ages. 
 
 ```{r}
 ## group the set of wrong answers by Age
 dfQuestionrespFalse <- DF_QuestionAnswerJoin %>%
 dplyr::count(Age=  DF_QuestionAnswerJoin$age_range , sort = TRUE)
-## plot the wrong answer per age 
+## plot the worong answer per age 
 ggplot(dfQuestionrespFalse ,aes(x = Age     , y = n  ,fill=Age      ))+
-  geom_bar(stat="identity")+ geom_text(aes(x = Age , label =n, y=n), size = 3) + labs(title = "Incorrect answerd Per Age  ", x = "Age Range ", y = "No. Incorrect answers")
+  geom_bar(stat="identity")+
+  geom_text(aes(x = Age , label =n, y=n), size = 3) +
+  labs(title = "Incorrect answerd Per Age  ", x = "Age Range ",  y = "No. Incorrect answers")
+```
+
+
+
+
+## Report 10  Providing students with better feedback on their progress
+**Leaving Reason File**
+
+```{r}
+ggplot(dfleavingReason4 ,aes(x = LeftYear, y = reason  , fill = LeftYear , colour= LeftYear,size = 3   ))+
+  #  geom_bar(stat="identity")+
+  geom_text(aes(x=LeftYear,label = n,y=reason), size = 3) +
+  labs(title = "Leaving Reason from Course",
+       x = "Reason",
+       y = "Year Left")
 ```
 
 
 
 
 
+**Joining many Files**
+By merge many sets of files I extract information’s about the trend of enrollments by year/month and the duration of the course. The history of the files help us to have more precise results in some analysis.
 
+## Report 11  Enrolments Per Year 
+This graphs gives us the trend of enrollment. it is important for the course to see if peoiple are interested in attending the course inorder to take actions.
+
+```{r}
+ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
+  geom_bar(stat="identity")+
+  geom_text(aes(label = n,y=n), size = 3) +
+  labs(title = "Enrolments By Year", x = "Year", y = "Number of Enrolments")
+```
+
+
+## Report 12   Duration of Enrolmengts 
+Average duration of the course. 
+```{r}
+dfdataenroldurationall
+```
+
+
+
+## Evaluation
+The findings from the  analysis gives some guidelines how the course program may be more interesting  and have more new learners. Having an estimation of the activity and the course duration , these will gives an alert message to gives more motivation or reminder  to learner to attend the course. It will also give more attention to people with older ages as they have bigger failure in activities. The topic of the course may be updated and enrich by analyzing  the leaving  reason of some learners. 
 
 
