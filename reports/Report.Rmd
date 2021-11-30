@@ -9,7 +9,9 @@ output: pdf_document
 # Knitr setup
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir= normalizePath('..'))
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
+
 
 ```{r include=FALSE}
 # Load project
@@ -24,17 +26,24 @@ source("src/Analysis.R")
 
 ## Introduction
 
-**Analysis of Online Course Analysis**
- During my Analysis I come across with many challenges. The online course is related with the secure payments. The main objective of the analysis was to uncover important  factors and to reveal indicators that will  keep the enrollments in growth rate and the  seminars be interesting from all the learners.
- The analysis is based on 7 sets of data. Each set consist of 7 files. These files are related with enrollments of learners and  activities that take place until the      completion of the course. The  course mainly consist of 3 sections. Each section has many activities that a learner need to attend and pass some questions.    
-
- The initial analysis is based mainly on the 4th set of data. After understanding the data of this set, i merge and the other set to have bigger historical data about the  course. The preparation of data was part of my analysis by removing all the records that can not give any value to my variables as they could be null. 
-
-
-## Data Analysis
- During my analysis I tried to find some interested data that might help us to take some conclusions and actions about the course. First i try to understand the category  of people that can attend this course. I would interested about the age,gender,education level and as well if the trend of enrollment would be incremented.  Part of my   analysis was to find an indicator as to how engaged the learner is, and subsequently how likely they might be to drop out.
+**Analysis of the FuturLearn course **
+ FutureLearn courses are consist of several courses that can be attended by people all over the word and cover interested topics.  Some online activities are  related with the secure payments.  This methodology of learning might need continuous feedback in order to continue to enroll new learners. Tools to analyse and discover different  area that may give value to the company, are always helpful.The "FutureLearn MOOC Dataset" is based on several files on CSV   format.
+ 
    
- With the 4th set of data I analyse the data from the below files:
+## Business Undertanding
+ The main business objective of the analysis was to uncover important  factors and to reveal indicators that will keep the enrollments in growth rate. Seminars must always  be interesting from all the learners.Part of the analysis , some strategic plans may needed for the sustainability of the company.   
+ 
+
+## Data Undertading
+ The initial   analysis is based mainly on the 4th set of data. Basic target of this analysis was to understand   the content of the files and how they related. How these data are fit with the FutureLearn courses. After a detail analysis of the 4th set of data files then a  merging of many sets of data from the 2nd 3rd and 4th run of files, more statistical information's can be extracted , as I analyse bigger and  historical data about the course.
+ During the analysis the demographics data of the learners  might help us to take some conclusions and actions about the course. Part of this analysis was the age of people that participated in the course as well their origin country. Education Level and employments area are part of the analysis. Important part of the analysis was to find an indicator as to how engaged the learner is, and subsequently how likely they might be to drop out.
+ 
+## Data Preparation
+One important part of the analysis was the data preparation. Many records in a data files in enrollment were missed information's like age, gender, country, education. These data are important to have detail and precise analysis. A cleansing procedure is taking place during the loading of data. Some other fields need to be formatted in proper format in order to be ready for analysis. Such fields are mainly the dates where needed  conversion from string to date format. For some analysis, the merging and the join of different files as week from different sets of data took place. With this merge I can join the characteristics of learners with their activities.
+
+
+## Data Analysis - Reports   
+The initial   analysis is based mainly on the 4th set of data. The  4th set of data consist of the below category of data files:
  
  * **Enrollment**
  * **Activity**
@@ -43,8 +52,8 @@ source("src/Analysis.R")
  * **Videos**
 
 ## Report 1     AgeRange Vs Gender 
-This graph shows the enrollments regarding the age_range  and  gender of the learners from the 4th set of data. We see that people from both gender  and especially from  age 18-25 and 26-35 are interested more in attending this course.  Male are interested more more than females. 
-
+This graph shows the enrollments regarding the Age range and  the gender of the learners from the 4th set of data. People from both genders are likely to attend the course. The data shows that  from  age 18-25 and 26-35 are interested more in attending this course. Male are interested more than females. 
+From this analysis, they have find out that many learners have not update these fields. For better and more accurate analysis, these fields must be compulsory during the enrollments of users.
 
 ```{r}
    
@@ -58,7 +67,7 @@ This graph shows the enrollments regarding the age_range  and  gender of the lea
 ##############################################################################################################################
 
 ## Report 2   Age vs EducationLevel
-This graph shows   the education level  per age of the leaners.  Inside of every circle there is a number of learners who attend the course.Each age range has different color circle. The age with the highest count have  university degree and university masters is the age 26-35.Based on university degree and university masters the age 36-45 is the second highest with the count of people 28 and 21.The age 18 -25 also has a lot people in secondary with count 38 and university degree with count 36.The age >65 has the highest count of people in university doctorate and professional. The age <18 has the lowest count of people in secondary which is normal at this age.
+This graph shows   the education level  per age of the leaner.  Inside of every circle there is a number of learners who attend the course. Each age range has different color circle. The age with the highest count from university degree and university masters is the age 26-35. Based on university degree and university masters the age 36-45 is the second highest with the count of people 28 and 21.The age 18-25 also has a lot people in secondary with count 38 and university degree with count 36.The age >65 has the highest count of people in university doctorate and professional. The age <18 has the lowest count of people in secondary which is normal at this age. From the graph it's clear that most people are related with Technology. This is because may be more easily accessible to these people due to the knowledge of technology. One Point that I extract from this gap was to advertise this course to be known from more people.  
 
 ```{r}
 ##graph of age vs highest_education_level
@@ -71,8 +80,7 @@ ggplot(data=dfageeducation4) + geom_point(aes(x=age , y=education  ,colour=age, 
 ##############################################################################################################################
 
 ## Report 3  Employment area of learners
-
-This Pie chart shows the top 5 employment areas based on the data.Each color represents the employment's job.The ration from around from pie chart starts by 50. The first biggest employment area is the IT and Information services with number of people 97.Unfortunately the second employment's job is unknown we don't know what kind of job is, but has number of people 93. The teaching and education is the third highest job with 32 number of people. Lastly comes the Engineering and manufacturing with 22 people and the Public sector with 20.  
+This Pie chart shows the top 5 employment areas based on the data. Each color represents the employment's job.The ration from around from pie chart starts by 50. The first biggest employment area is the IT and Information services with number of people 97.Unfortunately the second employment's job is **unknown** .  It counts 93  people  from the 4th set. The teaching and education is the third highest job with 32 number of people. It will be nice to be compulsory for learners to fulfill this infromation, using a drop down option during their enrollment. 
 
 ```{r}
 ##group the employment_area
@@ -90,7 +98,7 @@ ggplot(dfemployment4pie, aes(x = "", y = n, fill = employment)) +
 ##############################################################################################################################
 
 ## Report 4      Enrolments by gender vs country
-On this graph, Bar Chart shows us  by gender top countries that are participating in the course. It is amazing the participation from so many countries that are interested in the course. These data are dispaly after cleansing of data  
+On this graph, Bar Chart shows us by gender top countries that are participating in the course. It is amazing the participation from so many countries that are interested in the course. These data are displayed after cleansing of data.  
 
 ```{r}
   ggplot(dfcountry4 ,aes(x = gender, y = n   , fill = country))+
@@ -105,7 +113,7 @@ On this graph, Bar Chart shows us  by gender top countries that are participatin
 ##############################################################################################################################
 
 ## Report 5   Top Detected countries  that participating in the course 
-On this Bar Chart shows us the number of the enrollments based on the top  detected countries that participating in the course. The y axis is increased by 300 and each color represents the countries. Clearly that GB has the highest number of enrollments 1079. Secondly comes the IN with 347 and thirdly EG with 279.  
+On this Bar Chart shows us the number of the enrollments based on the top detected countries that participating in the course. The y axis is increased by 300 and each color represents the countries. Clearly that GB has the highest number of enrollments 1079. Secondly comes the IN with 347 and thirdly EG with 279. What is important from this analysis, is the interest of attending this course all over the world. So an advertisement over the internet would be interesting of attracting new learners. 
 
 ```{r}
 ## plot showing the top countries regarding that participating in the course
@@ -121,10 +129,10 @@ geom_bar(stat="identity")+
 
 
 **Activity file**  
-In this file can  extract some useful information’s regarding the learners who attend  activities. Useful information was the average time for completion of each section. If we see some learners that are still have activities that the duration was above the average time then we can send them a reminder or questionnaire for helping them to complete the course.
+The  course mainly consist of 3 sections. Each section has many activities that a learner need to attend and pass some questions. From this data file, useful information’s regarding numbers and the total trials of the learners can be extracted. Information like the average time for completion of each section is extracted. Having learners that their duration is more than the average time, as a possible solution we can send them a reminder or questionnaire for helping them to complete the course.
 
 ## Report 6   Activities on the 3 Sections 
-Based on this graph shows us the number of activities on the y axis and the sections of steps on x axis. The y axis starts by 10000 number of activities.Is clearly that following the steps there is a decrease. The first section of step has the highest number of activities with number 25722 the second with 16941 and the third with number 11861. 
+Based on this graph shows us the number of activities from the learners based on the sections.The first section with a variety of activities  has the highest numbe with totals of  25722  with the second section with 16941 and the third with number 11861. From this numbers, we can see how active is the activities sessions and if it needs any improvement in case of accessibility. 
 
 ```{r}
 ## plot showing the number of trials in the 3 sections of activities
@@ -162,8 +170,9 @@ ggplot(dfstepdurationinmin ,aes(x = step     , y = name  ,fill=step      ))+
 ```
 ##############################################################################################################################
 
-**Question Response File**
 
+**Question Response File**    
+This category of file is also important because from the response of the quiz's, you can get an indication how easy or difficult are some questions. It will also see if the people can understand the topic of the activities.
 
 ## Report 8     Quiz Response 
 Analysis of data regarding the questions vs response
@@ -180,7 +189,8 @@ ggplot(data=dfQuestionresp4) + geom_point(aes(x=quiz  , y=n  ,colour=response, s
 ##############################################################################################################################
 
 ## Report 9    Age Vs Quiz response for failure response
-This Bar Chart shows the incorrect answers per age.The y axis shows  the number of incorrect answers and starting by 100. The x axis shows the age range of the people. The age 56-65 and >65 has the highest numbers of incorrect answers. It's important to mention that the age <18 has the lowest incorrect answers with only 5 in all ages. 
+ 
+This Bar Chart shows the incorrect answers per age.The y axis shows  the number of incorrect answers and starting by 100. The x axis shows the age range of the people. The age 56-65 and >65 has the highest numbers of incorrect answers. It's important to mention that the age <18 has the lowest incorrect answers with only 5 in all ages. From this statistic information, we could think of enrich some activities or produce some new videos  in order to be more undertandable from older age.
 
 ```{r}
 ## group the set of wrong answers by Age
@@ -198,6 +208,7 @@ ggplot(dfQuestionrespFalse ,aes(x = Age     , y = n  ,fill=Age      ))+
 
 ## Report 10  Providing students with better feedback on their progress
 **Leaving Reason File**
+This kind of information is important becuase it gives a feedback of people who leaving the course. Their opinion is always countable.
 
 ```{r}
 ggplot(dfleavingReason4 ,aes(x = LeftYear, y = reason  , fill = LeftYear , colour= LeftYear,size = 3   ))+
@@ -209,14 +220,11 @@ ggplot(dfleavingReason4 ,aes(x = LeftYear, y = reason  , fill = LeftYear , colou
 ```
 
 
-
-
-
+## Report 11  Enrolments Per Year    
 **Joining many Files**
-By merge many sets of files I extract information’s about the trend of enrollments by year/month and the duration of the course. The history of the files help us to have more precise results in some analysis.
+By merging  many sets of files   information’s about the trend of enrollments by year/month and the average duration of the course can be extracted. The history of the data files help us to have more precise results in some analysis.    
 
-## Report 11  Enrolments Per Year 
-This graphs gives us the trend of enrollment. it is important for the course to see if peoiple are interested in attending the course inorder to take actions.
+This graphs gives us the trend of enrollment. it is important for the course to see if people are interested in attending the course in order to take actions.
 
 ```{r}
 ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
@@ -225,16 +233,42 @@ ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
   labs(title = "Enrolments By Year", x = "Year", y = "Number of Enrolments")
 ```
 
+The trend of enrollments  can be analysed also per Month. 
 
-## Report 12   Duration of Enrolmengts 
-Average duration of the course. 
 ```{r}
-dfdataenroldurationall
+library(knitr)
+kable(table(data2017$enrolled_at),caption = "Enrolments per month for 2017")
 ```
 
 
 
+## Report 12   Duration of Enrolmengts 
+Average duration of the course. 
+```{r}
+kable(head(dfdataenroldurationall),caption="Average duration of the course")
+```
+
+
+
+
+## Modeling 
+By applying model fitting in some variables, we can extract useful informations. These informations may related with the trend of new enrollments as well the quality of the seminars. This kind of information can help to uncover hideden informations and take some important actions for the good of the FutureLearn.  
+In the below analysis, i try to apply the Linear model fitting and predict some enrollments based on the variables  age, gender and  country. 
+
+```{r}
+## plot the graph of regression fit 
+plot(x = modelenrolment4$enrolled_at,             # True values on x-axis
+     y = results.lm$fitted.values,               # fitted values on y-axis
+     xlab = "True Values",
+     ylab = "Model Fitted Values",
+     main = "Regression fits of new enrolments")
+
+abline(b = 1, a = 0)
+```
+
+
 ## Evaluation
-The findings from the  analysis gives some guidelines how the course program may be more interesting  and have more new learners. Having an estimation of the activity and the course duration , these will gives an alert message to gives more motivation or reminder  to learner to attend the course. It will also give more attention to people with older ages as they have bigger failure in activities. The topic of the course may be updated and enrich by analyzing  the leaving  reason of some learners. 
-
-
+The findings from the analysis gives some guidelines how the course program may be more interesting and have more new learners. Having an estimation of the **duration of activity**  and the **course duration**, this will gives an alert message to give more motivation or reminder to learner to attend the course.  
+Another finding is the **bigger failure** of activities in **older ages**. This will give a message to FutureLearn to revise, enrich and reosrganise some topics in activities in order to help the older people to attend the course. FutureLearn is interested having learners in this age.    
+Analysis 0f **leaving  reason** from some learners, will rethink some strategies plans of the FutureLearn.  
+Finally by applying model fittings in some fields , we can extract some useful predictions  about the **countries** that may be  interested in attending the course.
