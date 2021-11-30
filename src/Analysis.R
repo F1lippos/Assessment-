@@ -169,10 +169,12 @@ dfsteps44 <- activity4 %>%
 
 g = ggplot(data=dfsteps44, aes(x=step, y=n))
 g1 = g + geom_point() + stat_smooth(linetype=2) +
-  xlab("Sections of  Steps") + ylab("Number of ativiries")
+  xlab("Sections of  Steps") + ylab("Number of activities")
 print(g1)
 
 
+
+geom_smooth(formula = y ~ x, method = "lm")
 #####  Plot to show the  average time and the total time for completed one section 
 table(activity4$last_completed_at)
 ## Remove the rections that are running 
