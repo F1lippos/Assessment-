@@ -1,10 +1,15 @@
+##  Analysis.R
+## 
+## Author Pikrides Filippos - 210229134
+
+
+
 #install.packages("ProjectTemplate")
 library("ProjectTemplate")
 setwd("~/R/CSCFilProject")
 load.project()
 
 ## load Libraries
-
 library(dplyr)
 library(ggplot2)
 library( dplyr )
@@ -13,7 +18,7 @@ library( dplyr )
 #############################  Analysis of the  4th set of files  #############
 ###############################################################################
  
-## nomber of rows of enrlomnets file 
+## number of rows of enrollments file 
 nrow(enrolment4)
 glimpse(enrolment4)
 head(enrolment4)
@@ -21,7 +26,7 @@ summary(enrolment4)
  
 
 ###################################################################################
-## graph to show realtion between Age Range and gender in Enrolment procedure
+## graph to show relation between Age Range and gender in Enrollment procedure
 ###################################################################################
 ## using count function to group the age and gender 
 dfenrolment4 <- enrolment4 %>%
@@ -48,7 +53,6 @@ print(ga)
 ###################################################################################
 ## graph  showing relation  between Age Range and education  in Enrollment procedure
  
-## graph of age vs highest_education_level
 dfageeducation4 <- enrolment4 %>%
   dplyr::count(age= enrolment4$age_range,education=enrolment4$highest_education_level, sort = TRUE) 
 
@@ -58,8 +62,8 @@ ggplot(data=dfageeducation4) + geom_point(aes(x=age , y=education  ,colour=age, 
        x = "Age-Range",
        y = "highest_education_level")
 
-
-## Education per age by gender
+###################################################################################
+## graph showing Education per  gender
 dfgendereducation4g <- enrolment4 %>%
   dplyr::count(gender= enrolment4$gender,education=enrolment4$highest_education_level, sort = TRUE) 
 
@@ -90,7 +94,7 @@ dplyr::count( employment=enrolment4$employment_area, sort = TRUE)
 dfemployment4pie <- head(dfemployment4pie,5)
 
 library(ggplot2)
-## plot the top 5 employemnet area in Pie
+## plot the top 5 employment area in Pie
 ggplot(dfemployment4pie, aes(x = "", y = n, fill = employment)) +
   geom_col(color = "black") +
   geom_text(aes(label = n),
@@ -101,7 +105,7 @@ ggplot(dfemployment4pie, aes(x = "", y = n, fill = employment)) +
 
 ###################################################################################
 ## graph  showing relation  with countries that interest for the course 
-##  graph  gender vs   country that enrol in a course 
+##  graph  gender vs   country that enroll in a course 
 table (enrolment4$country)
 
 dfcountry4 <- enrolment4 %>%
@@ -118,7 +122,7 @@ ggplot(dfcountry4 ,aes(x = gender, y = n   , fill = country))+
        y = "Number of Ocurances")
 
 
-## witthout cleansing 
+## grpah to display teetcted countries . This file is witthout cleansing 
 dfcountry4CY <- cyber.security.4.enrolments %>%
   dplyr::count(  country=cyber.security.4.enrolments$detected_country, sort = TRUE) 
 
@@ -135,17 +139,17 @@ ggplot(dfcountry4CY ,aes(x = country    , y = n   , fill = country))+
 
 
 ###################################################################################
-## 2.   Activity  File    
+## 2.   Activity  File     -- Activities of learners
+## Each section (total 3, have sub-sections 1.1, 1.2, ..)
 ###################################################################################
 
+## some basiv info related with activities
 head(activity4)
 table(activity4$step)
-## Each section (total 3, have sub-sections 1.1, 1.2, ..)
-
 
 table(activity4$step_number )
 
-## group the activities per section 
+## group the activities per section using the str_sub function
 dfsteps4 <- activity4 %>%
   dplyr::count(stepcount= str_sub(activity4$step,1,1) , sort = TRUE) 
 
@@ -175,9 +179,8 @@ table(activity4$last_completed_at)
 activity4Date <- subset(activity4, last_completed_at != "")
 table(activity4Date$last_completed_at)
 
-## iuse of function as.POSIXl to convert the str to date format
-# difftime(as.POSIXlt(activity4Date$last_completed_at),as.POSIXlt(activity4Date$first_visited_at), units = "mins")
-## using the function difftime to estimate the diference in minutes of the 2 dates
+## use of function as.POSIXl to convert the str to date format
+ 
 dfstepduration <- data.frame(activity4Date ,difftime =difftime(as.POSIXlt(activity4Date$last_completed_at),as.POSIXlt(activity4Date$first_visited_at), units = "mins"))
 head(dfstepduration)
 glimpse(dfstepduration)
@@ -185,8 +188,6 @@ glimpse(dfstepduration)
 head(dfstepduration)
 
 
-# load dplyr library
-library("dplyr")                            
 
 par(mfrow=c(1,2))
 
@@ -254,7 +255,7 @@ DF_QuestionAnswerJoin <- subset(DF_QuestionAnswerJoin, correct =="false")
 dfQuestionrespFalse <- DF_QuestionAnswerJoin %>%
   dplyr::count(Age=  DF_QuestionAnswerJoin$age_range , sort = TRUE)
 
-## plot the worong answer per age 
+## plot the wrong answer per age 
 ggplot(dfQuestionrespFalse ,aes(x = Age     , y = n  ,fill=Age      ))+
   geom_bar(stat="identity")+
   geom_text(aes(x = Age , label =n, y=n), size = 3) +
@@ -312,7 +313,7 @@ ggplot(video4 ,aes(x = title, y = total_views   , fill = title   ))+
 glimpse(enrolment2)
 glimpse(enrolment3)
 
-## join the enrollments from  set 
+## join the enrollments from  set of files  2,3,4
 data23 = bind_rows(enrolment2,enrolment3)
 data = bind_rows(data23,enrolment4)
 
@@ -327,7 +328,8 @@ activity   =bind_rows(activity23,activity4)
 DF_innerjoin = merge(x=data,y=activity,by="learner_id")
 ## to check the activity for a specific learner
 DF_innerjoin[DF_innerjoin$learner_id %in%  "00750a19-05a8-4a3a-bcbf-4f0271673cf4" ,] 
- 
+
+## Assign all the data of enrollments into dataAllenrolments
 dataAllenrolments  <- data 
 
 ##  cleansing of data - remove the unknown 
@@ -342,10 +344,11 @@ nrow(enrolment4)
 ## check  detected_country
 
 ###################################################################
-##      1st plot  of many sets  -   Enrollments By Year 
+##      1st plot  of many sets  -   
+## Enrollments By Year to check the trend This is based on the files that are loaded 
 
 
-
+## format the enroll_at field 
 dfenrolments   <- dataAllenrolments %>%
   dplyr::count(Enrolemts=  format(as.POSIXct(as.Date(dataAllenrolments$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y") , sort = TRUE) 
 
@@ -358,11 +361,11 @@ ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
        y = "Number of Enrolments")
 
 
-
+##   i get a subset of data . Those who enroll in 2017
 data2017 <- subset(dataAllenrolments,format(as.POSIXct(as.Date(dataAllenrolments$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y") == "2017")
 data2017$enrolled_at <- as.numeric(format(as.POSIXct(as.Date(data2017$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%m" ))
 
-## trend of enrolments by Month
+## trend of enrollments by Month
 table(data2017$enrolled_at)
 
  
@@ -381,22 +384,23 @@ ggplot(Enrolments2017 ,aes(x =  Enrolemts   , y=n     , fill =  Enrolemts   ))+
 
 
 ###################################################################
-##    2nd duration of enrollment / unenrollment
+##    2nd plot  of many sets  - 
+##    Duration of enrollment / unenrollment
 
  
 dataenrolduration <- dataAllenrolments
-## keep omnly the records that are completed 
+## keep only the records that are completed 
 dataenrolduration <- subset(dataenrolduration, unenrolled_at != "")
 nrow(dataenrolduration)
 ## difftime(as.POSIXlt(dataenrolduration$unenrolled_at),as.POSIXlt(dataenrolduration$enrolled_at), units = "days")
-
+## create a new data frame with a new field diffdays , where is the days of the course for each learner
 dfdataenrolduration <- data.frame(dataenrolduration ,diffdays = difftime(as.POSIXlt(dataenrolduration$unenrolled_at),as.POSIXlt(dataenrolduration$enrolled_at), units = "days"))
 head(dfdataenrolduration)
 glimpse(dfdataenrolduration)
 ##  table(dfdataenrolduration$step)
 summary(dfdataenrolduration$diffdays)
 
-###  total time in hours is spend to complete the sets  
+##  total time in hours is spend to complete the sets  
 dfdataenroldurationall   <- dfdataenrolduration %>% group_by(role = role) %>%
   summarise_at(vars(diffdays),              # Specify column
                list(name =   mean ))  
@@ -405,17 +409,19 @@ dfdataenroldurationall$name <- round(dfdataenroldurationall$name )
 
 
 
-###   111 days . So we can check with the current day if exist learners with much more than 111 days
+##  Average duration is  111 days . 
+## So we can check with the current day if exist learners with much more than 111 days
 
 dfdataenroldurationallsum   <- dfdataenrolduration %>% group_by(role = role) %>%
   summarise_at(vars(diffdays),              # Specify column
                list(name =   sum ))  
 
 ###################################################################
-##   3rd  number of users per steps
+##   3rd plot  of many sets  
+##   number of users per steps
 
 DF_innerjoin = merge(x=data,y=activity,by="learner_id")
-## to check the activituy for a specific learner
+## to check the activity for a specific learner
 DF_innerjoin[DF_innerjoin$learner_id %in%  "00750a19-05a8-4a3a-bcbf-4f0271673cf4" ,]
 
 ## I keep only the records/steps  that are running 
@@ -436,9 +442,9 @@ ggplot(stepcount ,aes(x = step, y = n   , fill = step   ))+
 
 
 #################################################################################
-## model fitting  
+##       model fitting   -- Liner Regression model 
 #################################################################################
-install.packages("lubridate")
+##install.packages("lubridate")
 modelenrolment4 <- data
 glimpse(modelenrolment4)
 
@@ -455,7 +461,7 @@ modelenrolment4$enrolled_at<- as.numeric(format(as.POSIXct(as.Date(modelenrolmen
 ind = sample(2, nrow(modelenrolment4), replace=TRUE, prob=c(0.6, 0.4))
 df.traindata = modelenrolment4[ind==1,]
 df.validate = modelenrolment4[ind==2,]
-## apply the Linear model fitiing 
+## apply the Linear model fitting 
 results.lm <- lm( enrolled_at ~ age_range+gender+country ,data=modelenrolment4)
 ## see the coefficients 
 summary(results.lm)
@@ -471,7 +477,7 @@ plot(x = modelenrolment4$enrolled_at,             # True values on x-axis
      main = "Regression fits of new enrolments")
 
 abline(b = 1, a = 0)    
-
-
 # Values should fall around this line!
+
+
 
