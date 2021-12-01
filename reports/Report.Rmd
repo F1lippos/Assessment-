@@ -260,7 +260,34 @@ kable(nrow(dataAllenrolments),caption="Number of Active Learners")
 ```
 
 
+##  Comparison of two cycles, the  4th and 5th cycle
+ 
+**Trend of new learners**  
+Comparing 2 cycles i want to see the trend of new learners. From the below table i see that i have fewer learners in the 5th run.
+If the downward trend continue , then a decision for  marketing campaign may needed for the FutureLearn.
 
+```{r}
+kable(nrow(Activelearners4),caption="Number of New  Learners of 4th run")
+```
+```{r}
+kable(nrow(Activelearners5),caption="Number of New  Learners of 5th run")
+```
+
+**Leaving course**  
+Comparing the learners leaving from the course i see that more people are leaving in 5th run. This gives an alert message to the FutureLearn to take action by abalyzing the reason of leaving.
+
+```{r}
+kable(nrow(leaving4),caption="No of Learners leaving the course in the 4th run")
+```
+```{r}
+kable(nrow(leaving5),caption="No of Learners leaving the course in the  5th run")
+```
+
+Leaving Reason is a useful feedback, because it gives you  an assessment from the learners about the course. It would be an indication of enrich the contemnt of activities or change the topic in some cases.
+
+```{r}
+kable(table(leaving5$leaving_reason),caption="Leaving Reason of the  5th run")
+```
 
 
 ## Modeling 
