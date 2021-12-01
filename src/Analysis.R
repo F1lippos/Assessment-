@@ -2,8 +2,6 @@
 ## 
 ## Author Pikrides Filippos - 210229134
 
-
-
 #install.packages("ProjectTemplate")
 library("ProjectTemplate")
 setwd("~/R/CSCFilProject")
@@ -281,8 +279,8 @@ ggplot(dfleavingReason4 ,aes(x = LeftYear, y = reason  , fill = LeftYear , colou
   #  geom_bar(stat="identity")+
   geom_text(aes(x=LeftYear,label = n,y=reason), size = 3) +
   labs(title = "Leaving Reason from Course",
-       x = "Reason",
-       y = "Year Left")
+       x = "Year Left",
+       y = "Reason")
 
 
 
@@ -367,7 +365,7 @@ ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
 data2017 <- subset(dataAllenrolments,format(as.POSIXct(as.Date(dataAllenrolments$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%Y") == "2017")
 data2017$enrolled_at <- as.numeric(format(as.POSIXct(as.Date(data2017$enrolled_at ),format = "%m/%d/%Y %H:%M:%S") , format = "%m" ))
 
-## trend of enrollments by Month
+## trend of enrollments by Month for the year 2017
 table(data2017$enrolled_at)
 
  
@@ -386,7 +384,7 @@ ggplot(Enrolments2017 ,aes(x =  Enrolemts   , y=n     , fill =  Enrolemts   ))+
 
 
 ###################################################################
-##    2nd plot  of many sets  - 
+##    2nd plot  of merging many  sets  - 
 ##    Duration of enrollment / unenrollment
 
  
@@ -428,7 +426,7 @@ DF_innerjoin[DF_innerjoin$learner_id %in%  "00750a19-05a8-4a3a-bcbf-4f0271673cf4
 
 ## I keep only the records/steps  that are running 
 DF_innerjoinlearner  <- subset (DF_innerjoin,last_completed_at == "")
-DF_innerjoinlearner[DF_innerjoinlearner$learner_id %in%  "1022e13a-177e-4b5d-9069-80b37f6137ac" ,]
+DF_innerjoinlearner[DF_innerjoinlearner$learner_id %in%  "9496898a-7aa4-4b71-ab91-d10c4bd53375" ,]
 
 #step
 stepcount   <- DF_innerjoinlearner %>%
@@ -441,6 +439,20 @@ ggplot(stepcount ,aes(x = step, y = n   , fill = step   ))+
        x = "Section",
        y = "Number of Enrolments")
 
+
+###################################################################
+##  4 .Number of current users that are attending the course 
+Activelearners  <- subset (dataAllenrolments,unenrolled_at     == "")
+nrow(dataAllenrolments)
+
+
+###################################################################
+## 5 Other historical in formations 
+
+## to check the activity for a specific learner
+DF_innerjoin[DF_innerjoin$learner_id %in%  "00750a19-05a8-4a3a-bcbf-4f0271673cf4" ,] 
+
+ 
 
 
 #################################################################################
@@ -480,6 +492,3 @@ plot(x = modelenrolment4$enrolled_at,             # True values on x-axis
 
 abline(b = 1, a = 0)    
 # Values should fall around this line!
-
-
-
