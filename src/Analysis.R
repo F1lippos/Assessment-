@@ -492,3 +492,25 @@ plot(x = modelenrolment4$enrolled_at,             # True values on x-axis
 
 abline(b = 1, a = 0)    
 # Values should fall around this line!
+
+#####################################################################
+##  Compare 2 set;s of data 4th and 5th set of data 
+#####################################################################
+
+
+##number of enrollments  4 set 
+Activelearners4  <- subset (enrolment4All,unenrolled_at     == "")
+nrow(Activelearners4)
+##number of enrollments  5 set 
+##nrow(enrolment5All)
+Activelearners5  <- subset (enrolment5All,unenrolled_at     == "")
+nrow(Activelearners5)
+head(enrolment5All)
+
+
+##number of leaving   4 set 
+nrow(leaving4)
+##number of leaving the course  5 set 
+nrow(leaving5)
+## leaving reason 
+table(leaving5$leaving_reason)
