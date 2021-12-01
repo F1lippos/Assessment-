@@ -30,8 +30,8 @@ activity3 =na.omit(cyber.security.1.step.activity)
 cyber.security.4.archetype.survey.responses
 leaving4 <- na.omit(cyber.security.4.leaving.survey.responses)
 ## str(cyber.security.4.leaving.survey.responses)
-enrolment4 <- na.omit(cyber.security.4.enrolments)
-
+enrolment4All <- na.omit(cyber.security.4.enrolments)
+enrolment4  <- enrolment4All
 enrolment4 <- cyber.security.4.enrolments  [(!(cyber.security.4.enrolments$gender  =="Unknown") & !(cyber.security.4.enrolments$age_range  =="Unknown")),]
 enrolment4 <- data.frame(enrolment4)
 Questionresp4 <- cyber.security.4.question.response
@@ -39,6 +39,24 @@ activity4 <- cyber.security.4.step.activity
 members4 <- na.omit(cyber.security.4.team.members)
 video4 <- cyber.security.4.video.stats
 responses4 <- cyber.security.4.weekly.sentiment.survey.responses
+
+
+
+####  5th set of data 
+##   clean and assign to variables
+ 
+leaving5 <- na.omit(cyber.security.5.leaving.survey.responses)
+## str(cyber.security.4.leaving.survey.responses)
+enrolment5All <- na.omit(cyber.security.5.enrolments)
+enrolment5 <- enrolment5All
+enrolment5 <- cyber.security.5.enrolments  [(!(cyber.security.5.enrolments$gender  =="Unknown") & !(cyber.security.5.enrolments$age_range  =="Unknown")),]
+enrolment5 <- data.frame(enrolment5)
+Questionresp54 <- cyber.security.5.question.response
+activit5 <- cyber.security.5.step.activity
+ 
+
+
+
 
 ###################### 
 ##   merge data 
