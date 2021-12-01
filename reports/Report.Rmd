@@ -1,7 +1,7 @@
 ---
-title: "Project"
+title: "Project Data Management and Exploratory Data Analysis "
 author: "Filippos Pikrides"
-date: "11/14/2021"
+date: "14/11/2021"
 output: pdf_document
 ---
 
@@ -26,16 +26,16 @@ source("src/Analysis.R")
 
 ## Introduction
 
-**Analysis of the FuturLearn course **
- FutureLearn courses are consist of several courses that can be attended by people all over the word and cover interested topics.  Some online activities are  related with the secure payments.  This methodology of learning might need continuous feedback in order to continue to enroll new learners. Tools to analyse and discover different  area that may give value to the company, are always helpful.The "FutureLearn MOOC Dataset" is based on several files on CSV   format.
+**Analysis of the FutureLearn course **   
+ FutureLearn courses are consist of several courses that can be attended by people all over the word and cover interested topics.  Some online activities are related with the secure payments. This methodology of learning might need continuous feedback in order to continue to enroll new learners. Tools to analyse and discover different area that may give value to the company, are always helpful. The "FutureLearn MOOC Dataset" is based on several files on CSV   format.
  
    
 ## Business Undertanding
- The main business objective of the analysis was to uncover important  factors and to reveal indicators that will keep the enrollments in growth rate. Seminars must always  be interesting from all the learners.Part of the analysis , some strategic plans may needed for the sustainability of the company.   
+ The main business objective of the analysis was to uncover important  factors and to reveal indicators that will keep the enrollments in growth rate. Seminars must always be interesting from all the learners. Everyone's approach to learning is based on a complex mix of strengths and preferences. Part of the analysis, is to predict these preferences and apply new material and activities at different time. The continuous observations of trends may need to change  some strategic plans  for the sustainability of the company. By applying  data mining  goals is used to discover patterns and relationships in the data in order to help make better business decisions. The main goal of the business is to  increase revenues, cut costs, improve customer relationships and  reduce risks.  
  
 
 ## Data Undertading
- The initial   analysis is based mainly on the 4th set of data. Basic target of this analysis was to understand   the content of the files and how they related. How these data are fit with the FutureLearn courses. After a detail analysis of the 4th set of data files then a  merging of many sets of data from the 2nd 3rd and 4th run of files, more statistical information's can be extracted , as I analyse bigger and  historical data about the course.
+ The initial analysis is based mainly on the 4th set of data. Basic target of this analysis was to understand the content of the files and how they related. How these data are fit with the FutureLearn courses. After a detail analysis of the 4th set of data files then a merging of many sets of data from the 2nd 3rd and 4th run of files, more statistical information's can be extracted, as I analyse bigger and  historical data about the course.
  During the analysis the demographics data of the learners  might help us to take some conclusions and actions about the course. Part of this analysis was the age of people that participated in the course as well their origin country. Education Level and employments area are part of the analysis. Important part of the analysis was to find an indicator as to how engaged the learner is, and subsequently how likely they might be to drop out.
  
 ## Data Preparation
@@ -75,7 +75,7 @@ ggplot(data=dfageeducation4) + geom_point(aes(x=age , y=education  ,colour=age, 
   geom_text(aes(x=age,label = n,y=education), size = 3)+
   labs(title = "Education per Age",
        x = "Age-Range",
-       y = "highest_education_level")
+       y = "Highest Education Level")
 ```
 ##############################################################################################################################
 
@@ -105,7 +105,7 @@ On this graph, Bar Chart shows us by gender top countries that are participating
   geom_bar(stat="identity")+
   # geom_text(aes(label = n), size = 3) +
   labs(title = "Enrolments regarding gender Country",
-       x = "Age-Range",
+       x = "Gender",
        y = "Number of Ocurances")
 
 
@@ -125,6 +125,7 @@ geom_bar(stat="identity")+
        y = "Number of  Enrollments")
 
 ```
+##############################################################################################################################
 
 
 
@@ -132,7 +133,7 @@ geom_bar(stat="identity")+
 The  course mainly consist of 3 sections. Each section has many activities that a learner need to attend and pass some questions. From this data file, useful information’s regarding numbers and the total trials of the learners can be extracted. Information like the average time for completion of each section is extracted. Having learners that their duration is more than the average time, as a possible solution we can send them a reminder or questionnaire for helping them to complete the course.
 
 ## Report 6   Activities on the 3 Sections 
-Based on this graph shows us the number of activities from the learners based on the sections.The first section with a variety of activities  has the highest numbe with totals of  25722  with the second section with 16941 and the third with number 11861. From this numbers, we can see how active is the activities sessions and if it needs any improvement in case of accessibility. 
+Based on this graph shows us the number of activities from the learners based on the sections.The first section with a variety of activities has the highest numbe with totals of  25722  with the second section with 16941 and the third with number 11861. From these numbers, I can see how active is the activities sessions and if it needs any improvement in case of accessibility. 
 
 ```{r}
 ## plot showing the number of trials in the 3 sections of activities
@@ -143,9 +144,9 @@ ggplot(dfsteps4 ,aes(x = stepcount     , y = n   , fill = stepcount        ))+
        x = "Sections of  Steps ",
        y = "Number of Activities")
 ```
-##############################################################################################################################
+##############################################################################################################################   
 
-
+The result of this below graph is the same with the above graph the difference between them is that in the analysis it has been used in different ggplot to show the section activity with Number of Activities on y axis and Sections of Steps on x axis. 
 
 
 ```{r}
@@ -154,6 +155,7 @@ g1 = g + geom_point() + stat_smooth(linetype=2) +
   xlab("Sections of  Steps") + ylab("Number of ativiries")
 print(g1)
 ```
+##############################################################################################################################
 
 
 ## Report 7  Step duration  for the activities
@@ -202,29 +204,31 @@ ggplot(dfQuestionrespFalse ,aes(x = Age     , y = n  ,fill=Age      ))+
   geom_text(aes(x = Age , label =n, y=n), size = 3) +
   labs(title = "Incorrect answerd Per Age  ", x = "Age Range ",  y = "No. Incorrect answers")
 ```
+##############################################################################################################################
 
 
 
 
 ## Report 10  Providing students with better feedback on their progress
-**Leaving Reason File**
-This kind of information is important becuase it gives a feedback of people who leaving the course. Their opinion is always countable.
+**Leaving Reason File**  
+This kind of information is important because it gives a feedback of people who leaving the course. Their opinion is always countable.
 
 ```{r}
 ggplot(dfleavingReason4 ,aes(x = LeftYear, y = reason  , fill = LeftYear , colour= LeftYear,size = 3   ))+
   #  geom_bar(stat="identity")+
   geom_text(aes(x=LeftYear,label = n,y=reason), size = 3) +
   labs(title = "Leaving Reason from Course",
-       x = "Reason",
-       y = "Year Left")
+       x = "Year Left",
+       y = "Reason")
 ```
-
+##############################################################################################################################
+**Analysis with merging many files**   
+After the analysis of the 4th set,  by merging many files from different sets of data we can explore and extract historical statistical informations.The **trend of enrollments** by year and  by month is an indication of the success of the course. According to the trend, actions may need to be taken. Another finding is the **average duration** of the course that  can be extracted. The history of the data files help us to have more precise results in some analysis.
 
 ## Report 11  Enrolments Per Year    
-**Joining many Files**
-By merging  many sets of files   information’s about the trend of enrollments by year/month and the average duration of the course can be extracted. The history of the data files help us to have more precise results in some analysis.    
 
-This graphs gives us the trend of enrollment. it is important for the course to see if people are interested in attending the course in order to take actions.
+On below ggplot a multiple files have been used which are the Enrollments.csv from the second, third and forth run of files.
+This graphs gives us the trend of enrollment between three years. It is important for the course to see if people are interested in attending the course in order to take actions.
 
 ```{r}
 ggplot(dfenrolments ,aes(x = Enrolemts    , y = n   , fill = Enrolemts   ))+
@@ -239,21 +243,29 @@ The trend of enrollments  can be analysed also per Month.
 library(knitr)
 kable(table(data2017$enrolled_at),caption = "Enrolments per month for 2017")
 ```
+##############################################################################################################################
 
 
-
-## Report 12   Duration of Enrolmengts 
+## Report 12   Duration of Enrolments 
 Average duration of the course. 
 ```{r}
 kable(head(dfdataenroldurationall),caption="Average duration of the course")
 ```
 
+It is also important to know from the historical data, how many learners are active. The current activity of each user and also number of user in each activities will be a useful information.
+ 
+
+```{r}
+kable(nrow(dataAllenrolments),caption="Number of Active Learners")
+```
+
+
 
 
 
 ## Modeling 
-By applying model fitting in some variables, we can extract useful informations. These informations may related with the trend of new enrollments as well the quality of the seminars. This kind of information can help to uncover hideden informations and take some important actions for the good of the FutureLearn.  
-In the below analysis, i try to apply the Linear model fitting and predict some enrollments based on the variables  age, gender and  country. 
+By applying model fitting in some variables, I can extract useful information's. These information's may related with the trend of new enrollments as well the quality of the seminars. This kind of information can help to uncover hidden information's and take some important actions for the good of the FutureLearn.  
+In the below analysis, I try to apply the Linear model fitting and predict some enrollments based on the variables  age, gender and  country. 
 
 ```{r}
 ## plot the graph of regression fit 
@@ -270,5 +282,9 @@ abline(b = 1, a = 0)
 ## Evaluation
 The findings from the analysis gives some guidelines how the course program may be more interesting and have more new learners. Having an estimation of the **duration of activity**  and the **course duration**, this will gives an alert message to give more motivation or reminder to learner to attend the course.  
 Another finding is the **bigger failure** of activities in **older ages**. This will give a message to FutureLearn to revise, enrich and reosrganise some topics in activities in order to help the older people to attend the course. FutureLearn is interested having learners in this age.    
-Analysis 0f **leaving  reason** from some learners, will rethink some strategies plans of the FutureLearn.  
+Analysis of **leaving  reason** from some learners, will rethink some strategies plans of the FutureLearn.  
 Finally by applying model fittings in some fields , we can extract some useful predictions  about the **countries** that may be  interested in attending the course.
+
+
+
+
