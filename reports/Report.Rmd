@@ -272,6 +272,17 @@ kable(nrow(Activelearners4),caption="Number of New  Learners of 4th run")
 ```{r}
 kable(nrow(Activelearners5),caption="Number of New  Learners of 5th run")
 ```
+**Enrollments regarding Age range per Cycle**   
+In the below graph it is visualized the Age range per cycle. This display the trend per age of enrollments. 
+
+```{r}
+ga = ggplot(dfdatacycle_4_5, aes(x=age, y=n, group=cycles)) +
+  geom_line(aes(color=cycles))+
+  geom_point(aes(color=cycles)) +
+  labs(title = "Enrollments regarding Age /Cycles",x = "Age-Range", y = "Number of Ocurances")
+print(ga)
+```
+
 
 **Leaving course**  
 Comparing the learners leaving from the course I see that more people are leaving in 5th run. This gives an alert message to the FutureLearn to take action by analyzing the reason of leaving.
