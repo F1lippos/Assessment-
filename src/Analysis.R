@@ -494,7 +494,7 @@ abline(b = 1, a = 0)
 # Values should fall around this line!
 
 #####################################################################
-##  Compare 2 set;s of data 4th and 5th set of data 
+##  Compare 2 sets of data 4th and 5th set of data 
 #####################################################################
 
 
@@ -508,7 +508,7 @@ nrow(Activelearners5)
 head(enrolment5All)
 
 
-##number of leaving   4 set 
+##number of leaving the course  4 set 
 nrow(leaving4)
 ##number of leaving the course  5 set 
 nrow(leaving5)
