@@ -80,7 +80,7 @@ ggplot(data=dfageeducation4) + geom_point(aes(x=age , y=education  ,colour=age, 
 ##############################################################################################################################
 
 ## Report 3  Employment area of learners
-This Pie chart shows the top 5 employment areas based on the data. Each color represents the employment's job.The ration from around from pie chart starts by 50. The first biggest employment area is the IT and Information services with number of people 97.Unfortunately the second employment's job is **unknown** .  It counts 93  people  from the 4th set. The teaching and education is the third highest job with 32 number of people. It will be nice to be compulsory for learners to fulfill this infromation, using a drop down option during their enrollment. 
+This Pie chart shows the top 5 employment areas based on the data. Each color represents the employment's job. The ration from around from pie chart starts by 50. The first biggest employment area is the IT and Information services with number of people 97.Unfortunately the second employment's job is **unknown** .  It counts 93  people  from the 4th set. The teaching and education is the third highest job with 32 number of people. It will be nice to be compulsory for learners to fulfill this information, using a drop down option during their enrollment. 
 
 ```{r}
 ##group the employment_area
@@ -263,8 +263,8 @@ kable(nrow(dataAllenrolments),caption="Number of Active Learners")
 ##  Comparison of two cycles, the  4th and 5th cycle
  
 **Trend of new learners**  
-Comparing 2 cycles i want to see the trend of new learners. From the below table i see that i have fewer learners in the 5th run.
-If the downward trend continue , then a decision for  marketing campaign may needed for the FutureLearn.
+Comparing 2 cycles I want to see the trend of new learners. Based on the below table I see that I have fewer learners in the 5th run.
+If the downward trend continue, then a decision for marketing campaign may needed for the FutureLearn.
 
 ```{r}
 kable(nrow(Activelearners4),caption="Number of New  Learners of 4th run")
@@ -274,7 +274,7 @@ kable(nrow(Activelearners5),caption="Number of New  Learners of 5th run")
 ```
 
 **Leaving course**  
-Comparing the learners leaving from the course i see that more people are leaving in 5th run. This gives an alert message to the FutureLearn to take action by abalyzing the reason of leaving.
+Comparing the learners leaving from the course I see that more people are leaving in 5th run. This gives an alert message to the FutureLearn to take action by analyzing the reason of leaving.
 
 ```{r}
 kable(nrow(leaving4),caption="No of Learners leaving the course in the 4th run")
@@ -283,7 +283,7 @@ kable(nrow(leaving4),caption="No of Learners leaving the course in the 4th run")
 kable(nrow(leaving5),caption="No of Learners leaving the course in the  5th run")
 ```
 
-Leaving Reason is a useful feedback, because it gives you  an assessment from the learners about the course. It would be an indication of enrich the contemnt of activities or change the topic in some cases.
+Leaving Reason is a useful feedback, because it gives you an assessment from the learners about the course. It would be an indication of enrich the content of activities or change the topic in some cases.
 
 ```{r}
 kable(table(leaving5$leaving_reason),caption="Leaving Reason of the  5th run")
