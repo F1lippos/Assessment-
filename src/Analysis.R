@@ -514,3 +514,27 @@ nrow(leaving4)
 nrow(leaving5)
 ## leaving reason 
 table(leaving5$leaving_reason)
+
+
+## comparison of 2 cycles by age 
+
+enrolment4Allage<- subset(enrolment4All,age_range != "Unknown")
+enrolment5Allage<- subset(enrolment5All,age_range != "Unknown")
+
+enrolment4age <- data.frame(enrolment4Allage, cycle ="4th set" )
+enrolment5age <- data.frame(enrolment5Allage, cycle ="5th set" )
+
+datacycle_4_5 =  bind_rows(enrolment4age,enrolment5age)
+
+## graph of age vs highest_education_level
+dfdatacycle_4_5 <- datacycle_4_5 %>%
+  dplyr::count(age= datacycle_4_5$age_range,cycles = datacycle_4_5$cycle, sort = TRUE) 
+
+##   plot using line 
+ga = ggplot(dfdatacycle_4_5, aes(x=age, y=n, group=cycles)) +
+  geom_line(aes(color=cycles))+
+  geom_point(aes(color=cycles)) +
+  labs(title = "Enrolments regarding Age /Cycles",
+       x = "Age-Range",
+       y = "Number of Ocurances")
+print(ga)
